@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Build and packaging
+build/
+dist/
+distribution/
+*.exe
+
+# Generated outputs
+output/
+output_*/
+output_test*/
+test_output/
+*.pdf
+*.html
+*.log
+*.txt
+
+# Candidate/source data files
+*.xlsx
+candidate_pdf_registry.json
+candidats_multi_epreuves.json
+registry_report.txt
+
+# Local IDE/runtime
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets and credentials
+mailjet_config.json
+mailjet.key
+gmail_config.json
+oauth_credentials.json
+oauth_auth.py
+oauth_login_dialog.py
+oauth_entraid.py
+oauth_email_sender.py
+email_auth.py
+
+# Large local archives/backups
+archive/
+backup_before_downgrade/
+dist_backup/
+ConvocationGenerator_v20250922/
+*.bak
+*.backup
+*.original
+*.new
+*.error
+*.type_error_bak
