@@ -29,7 +29,9 @@ jobs:
         with:
           python-version: "3.11"
           cache: "pip"
-          cache-dependency-path: requirements.txt
+          cache-dependency-path: |
+            requirements.txt
+            **/requirements.txt
 
       - name: Install dependencies
         shell: pwsh
@@ -38,30 +40,47 @@ jobs:
 
           $skip = @('tkinter', 'webbrowser', 'threading', 'json', 'time', 'os', 'uuid')
           $optional = @('weasyprint')
-          $packages = Get-Content requirements.txt |
-            ForEach-Object { $_.Trim() } |
-            Where-Object { $_ -and -not $_.StartsWith('#') }
 
-          $filtered = @()
-          foreach ($pkg in $packages) {
-            $name = ($pkg -split '[<>=]')[0].Trim().ToLower()
-            if ($skip -notcontains $name) {
-              $filtered += $pkg
+          $requirementsPath = ""
+          if (Test-Path "requirements.txt") {
+            $requirementsPath = "requirements.txt"
+          } else {
+            $found = Get-ChildItem -Recurse -Filter requirements.txt | Select-Object -First 1
+            if ($found) {
+              $requirementsPath = $found.FullName
             }
           }
 
-          foreach ($pkg in $filtered) {
-            $name = ($pkg -split '[<>=]')[0].Trim().ToLower()
-            Write-Host "Installing $pkg"
+          if ($requirementsPath) {
+            Write-Host "Using requirements file: $requirementsPath"
+            $packages = Get-Content $requirementsPath |
+              ForEach-Object { $_.Trim() } |
+              Where-Object { $_ -and -not $_.StartsWith('#') }
 
-            python -m pip install "$pkg"
-            if ($LASTEXITCODE -ne 0) {
-              if ($optional -contains $name) {
-                Write-Warning "Optional package failed to install: $pkg (continuing)"
-              } else {
-                throw "Required package failed to install: $pkg"
+            $filtered = @()
+            foreach ($pkg in $packages) {
+              $name = ($pkg -split '[<>=]')[0].Trim().ToLower()
+              if ($skip -notcontains $name) {
+                $filtered += $pkg
               }
             }
+
+            foreach ($pkg in $filtered) {
+              $name = ($pkg -split '[<>=]')[0].Trim().ToLower()
+              Write-Host "Installing $pkg"
+
+              python -m pip install "$pkg"
+              if ($LASTEXITCODE -ne 0) {
+                if ($optional -contains $name) {
+                  Write-Warning "Optional package failed to install: $pkg (continuing)"
+                } else {
+                  throw "Required package failed to install: $pkg"
+                }
+              }
+            }
+          } else {
+            Write-Warning "requirements.txt not found; installing fallback build dependencies"
+            python -m pip install pandas openpyxl jinja2 xhtml2pdf reportlab mailjet-rest cryptography requests pillow
           }
 
           python -m pip install pyinstaller
