@@ -45,10 +45,13 @@ logging.basicConfig(
 # Forcer l'encodage UTF-8 pour stdout si possible
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
+
+APP_VERSION = "2.0.1"
+
 class ConvocationGenerator:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("Générateur de Convocations d'Examens")
+        self.root.title(f"Générateur de Convocations d'Examens v{APP_VERSION}")
         self.root.geometry("800x600")
         
         # Configuration du style pour le bouton Reset

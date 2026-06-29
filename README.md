@@ -1,5 +1,7 @@
 # Générateur de Convocations DELF/DALF
 
+Version courante: 2.0.1
+
 ## 🎉 Système entièrement intégré et organisé
 
 Application complète pour générer et envoyer des convocations d'examens DELF/DALF avec détection automatique des fichiers de jurys.

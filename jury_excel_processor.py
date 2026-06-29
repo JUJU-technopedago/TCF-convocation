@@ -106,7 +106,7 @@ class JuryExcelProcessor:
                             heure_passage = row[1] if pd.notna(row[1]) else None
                             numero = row[2] if pd.notna(row[2]) else None
                             nom_complet = row[3] if pd.notna(row[3]) and len(row) > 3 else None
-                            date_naissance = row[4] if pd.notna(row[4]) and len(row) > 4 else None
+                            date_naissance = self._normalize_birth_date(row[4]) if pd.notna(row[4]) and len(row) > 4 else None
                             email = row[5] if pd.notna(row[5]) and len(row) > 5 else None
                             
                             # Vérifier si c'est un candidat à besoins spéciaux (colonne G)
@@ -190,6 +190,36 @@ class JuryExcelProcessor:
             'C2': '3h30 (collective) + 30min (individuelle)'
         }
         return durees.get(niveau, '2h')
+
+    def _normalize_birth_date(self, date_value):
+        """Normalise une date de naissance au format français jj/mm/aaaa."""
+        if date_value is None or pd.isna(date_value):
+            return ''
+
+        if isinstance(date_value, str):
+            date_text = date_value.strip()
+            if not date_text or date_text.lower() == 'nan':
+                return ''
+
+            for fmt in ('%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d', '%d/%m/%y', '%d-%m-%y'):
+                try:
+                    return datetime.strptime(date_text, fmt).strftime('%d/%m/%Y')
+                except ValueError:
+                    continue
+
+            parsed_date = pd.to_datetime(date_text, errors='coerce', dayfirst=True)
+            if pd.isna(parsed_date):
+                return date_text
+            return parsed_date.strftime('%d/%m/%Y')
+
+        if hasattr(date_value, 'strftime'):
+            return date_value.strftime('%d/%m/%Y')
+
+        parsed_date = pd.to_datetime(date_value, errors='coerce', dayfirst=True)
+        if pd.isna(parsed_date):
+            return str(date_value).strip()
+
+        return parsed_date.strftime('%d/%m/%Y')
     
     def _ensure_string(self, value):
         """Garantit qu'une valeur est une chaîne de caractères"""

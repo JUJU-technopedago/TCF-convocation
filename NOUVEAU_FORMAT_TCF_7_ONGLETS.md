@@ -226,5 +226,5 @@ Pour toute question ou problème :
 
 ---
 
-**Date de mise à jour :** Novembre 2025  
-**Version :** 2.0 - Support des épreuves facultatives TCF TP
+**Date de mise à jour :** 29 juin 2026  
+**Version :** 2.0.1 - Correctif du format de date de naissance au chargement
