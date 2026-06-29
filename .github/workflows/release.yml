@@ -20,15 +20,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: "pip"
+          cache-dependency-path: requirements.txt
 
       - name: Install dependencies
         shell: pwsh
@@ -36,6 +37,7 @@ jobs:
           python -m pip install --upgrade pip
 
           $skip = @('tkinter', 'webbrowser', 'threading', 'json', 'time', 'os', 'uuid')
+          $optional = @('weasyprint')
           $packages = Get-Content requirements.txt |
             ForEach-Object { $_.Trim() } |
             Where-Object { $_ -and -not $_.StartsWith('#') }
@@ -48,8 +50,18 @@ jobs:
             }
           }
 
-          if ($filtered.Count -gt 0) {
-            python -m pip install $filtered
+          foreach ($pkg in $filtered) {
+            $name = ($pkg -split '[<>=]')[0].Trim().ToLower()
+            Write-Host "Installing $pkg"
+
+            python -m pip install "$pkg"
+            if ($LASTEXITCODE -ne 0) {
+              if ($optional -contains $name) {
+                Write-Warning "Optional package failed to install: $pkg (continuing)"
+              } else {
+                throw "Required package failed to install: $pkg"
+              }
+            }
           }
 
           python -m pip install pyinstaller
