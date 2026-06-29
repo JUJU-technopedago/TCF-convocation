@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convocation DELF</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm 2cm 2cm 2cm; /* Réduit la marge du haut à 1cm, garde 2cm pour les autres côtés */
+        }
+        
+        * {
+            font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif !important;
+        }
+        
+        body {
+            font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif !important;
+            line-height: 1.4;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            font-size: 11pt;
+        }
+        
+        /* Force Tahoma sur tous les éléments texte */
+        h1, h2, h3, h4, h5, h6, p, div, span, td, th, li, a, strong, em, i, b, .title-box-wrapper, .candidate-name, .candidate-info, .instruction-text, .address-text, .address-box, .exam-title-box, .exam-section-title, .exam-info, .important-notice, .access-code {
+            font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif !important;
+        }
+        
+        .header {
+            width: 100%;
+            margin-top: 0; /* Supprime toute marge en haut */
+            margin-bottom: 20px; /* Réduit la marge en bas */
+        }
+        
+        .logo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;  /* Réduit de 60px à 40px */
+        }
+        
+        .logo-table td {
+            border: none;
+            padding: 0;
+            vertical-align: top;
+        }
+        
+        .logo-left-cell {
+            width: 50%;
+            text-align: left;
+        }
+        
+        .logo-right-cell {
+            width: 50%;
+            text-align: right;
+        }
+        
+        .logo-left {
+            height: 60px;
+            width: auto;
+        }
+        
+        .logo-right {
+            height: 60px;
+            width: auto;
+        }
+        
+        .title-box {
+            background-color: #e8e8e8;
+            border: 2px solid #000;
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px 8px;
+            margin: 20px 0;
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: table-cell;
+            width: 100%;
+            height: 40px;
+        }
+        
+        .title-container {
+            text-align: center;  /* Centrage horizontal parfait */
+            margin: 20px 0 40px 0;  /* Double l'écart vers le bas */
+        }
+        
+        .title-box-wrapper {
+            display: inline-block;
+            background-color: white;  /* Fond blanc */
+            border: 3px solid #000000;  /* Bordure noire 3px pour compatibilité */
+            padding: 15px 50px;  /* Padding ajusté pour un cadre propre */
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            min-height: 20px;
+            line-height: 1.2;
+            box-sizing: border-box;  /* Pour inclure la bordure dans les dimensions */
+        }
+        
+        .candidate-name {
+            font-size: 12pt;
+            font-weight: bold;
+            margin: 30px 0 5px 0;  /* Double l'écart vers le haut */
+        }
+        
+        .candidate-info {
+            margin: 3px 0;
+            font-size: 11pt;
+        }
+        
+        .instruction-text {
+            margin: 15px 0;
+            text-align: justify;
+            line-height: 1.4;
+            font-size: 11pt;
+        }
+        
+        .address-text {
+            margin: 15px 0 5px 0;
+            font-size: 11pt;
+        }
+        
+        .address-box {
+            text-align: center;
+            margin: 0;
+            padding: 8px;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+        
+        .address-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 20px 0;
+            border: none;
+            table-layout: fixed;
+        }
+        
+        .address-cell {
+            width: 40%;
+            vertical-align: middle;
+            padding: 0;
+            height: 100%;
+        }
+        
+        .qrcode-cell {
+            width: 60%;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0;
+            height: 100%;
+        }
+        
+        .qrcode-image {
+            max-height: 100%;
+            max-width: 120px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .exam-title-box {
+            background-color: #e8e8e8;
+            border: 2px solid #000;
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px 8px;
+            margin: 20px 0;
+            font-size: 11pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: table-cell;
+            width: 100%;
+            height: 40px;
+        }
+        
+        .exam-title-container {
+            display: table;
+            width: 100%;
+            height: 40px;
+        }
+        
+        .exam-section {
+            margin: 15px 0;
+        }
+        
+        .exam-section-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 11pt;
+            text-decoration: underline;
+        }
+        
+        .exam-info {
+            margin: 3px 0;
+            font-size: 11pt;
+        }
+        
+        .important-notice {
+            margin: 20px 0;
+            text-align: justify;
+            line-height: 1.4;
+            font-size: 11pt;
+            font-style: italic;
+            color: #000000;
+        }
+        
+        .access-code {
+            margin-top: 40px;
+            font-size: 12pt;
+            font-weight: bold;
+            color: #da002e;  /* Rouge */
+            text-align: center;
+        }
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table class="logo-table">
+            <tr>
+                <td class="logo-left-cell">
+                    <img src="{{ logo_af_path }}" alt="Alliance Française" class="logo-left">
+                </td>
+                <td class="logo-right-cell">
+                    <img src="{{ logo_delf_path }}" alt="DELF" class="logo-right">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="title-container">
+        <table style="margin: 0 auto; border: 1px solid #000000; border-collapse: collapse;">
+            <tr>
+                <td style="padding: 8px 50px; text-align: center; vertical-align: middle; font-size: 24pt; font-weight: bold; text-transform: uppercase; font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif; height: 50px; line-height: 1;">
+                    CONVOCATION À UN EXAMEN
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="candidate-name">{{ nom|upper }} {{ prenom|title }}{% if tiers_temps %} <span style="color: #000000; font-size: 10pt;">(Candidat bénéficiaire d'un aménagement spécifique)</span>{% endif %}</div>
+    
+    <div class="candidate-info">Né.e le : {{ date_naissance }}</div>
+    <div class="candidate-info">N° de candidat : {{ numero_candidat }}</div>
+    
+    <div class="instruction-text">
+        Vous êtes invité.e à vous présenter aux épreuves suivantes, aux dates et heures indiquées ci-dessous, 
+        muni.e de la présente convocation et d'une pièce d'identité en cours de validité.
+    </div>
+
+    <div class="address-text">L'examen se déroulera à l'adresse suivante :</div>
+
+    <table class="address-table">
+        <tr style="height: 100%;">
+            <td class="address-cell">
+                <div class="address-box">
+                    {{ institution_name or "Alliance Française de Bruxelles-Europe" }}<br>
+                    {{ institution_address or "Avenue des Arts 46" }}<br>
+                    {{ institution_postal or "1000" }} {{ institution_city or "Bruxelles" }}
+                </div>
+            </td>
+            <td class="qrcode-cell">
+                {% if qrcode_path %}
+                <img src="{{ qrcode_path }}" alt="QR Code" class="qrcode-image">
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <div class="exam-title-container">
+        <div class="exam-title-box">
+            Examen {{ exam_type or "DELF" }}, Niveau {{ niveau or "B1" }} du CECRL
+        </div>
+    </div>
+
+    <div class="exam-section">
+        <div class="exam-section-title">Épreuves collectives :</div>
+        <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_ep_coll or date_examen }}</span></div>
+        <div class="exam-info"><strong>Début de l'épreuve</strong> : {{ debut_ep_coll or heure_debut }}</div>
+        <div class="exam-info"><strong>Fin de l'épreuve</strong> : {{ fin_ep_coll_affichage or fin_ep_coll or "Selon durée du niveau" }}</div>
+        <div class="exam-info"><strong>Salle</strong> : {{ salle_collective or salle }}</div>
+    </div>
+
+    <div class="exam-section">
+        <div class="exam-section-title">Épreuve individuelle :</div>
+        <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_ep_ind or date_examen }}</span></div>
+        <div class="exam-info"><strong>Heure de préparation</strong> : {{ heure_preparation or heure_debut }}</div>
+        <div class="exam-info"><strong>Salle</strong> : {{ salle_individuelle }}</div>
+    </div>
+
+    {% if tiers_temps %}
+    <div style="margin: 20px 0; text-align: justify; line-height: 1.4; font-size: 11pt; color: #000000;">
+        <strong>Note importante:</strong> En tant que bénéficiaire d'un aménagement spécifique, un tiers-temps vous est alloué lors des épreuves collectives. L'heure de fin d'épreuve indiquée ci-dessus tient compte de cet aménagement.
+    </div>
+    {% endif %}
+
+    <div class="important-notice">
+        Afin d'assurer la bonne tenue des épreuves collectives et individuelles, vous êtes prié.e de 
+        vous présenter sur le lieu de passation <strong>30 minutes avant</strong> les horaires indiqués sur cette 
+        convocation.
+    </div>
+
+    <div class="access-code">
+        Votre code d'accès aux locaux est : {{ access_code or "" }}
+    </div>
+
+</body>
+</html>

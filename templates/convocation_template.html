@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convocation DELF/DALF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #002664;
+            padding-bottom: 10px;
+        }
+        .logo {
+            max-height: 80px;
+        }
+        .document-title {
+            text-align: center;
+            margin: 20px 0;
+            color: #002664;
+        }
+        .main-content {
+            margin-bottom: 30px;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .section-title {
+            background-color: #002664;
+            color: white;
+            padding: 5px 10px;
+            margin-top: 20px;
+        }
+        .important-note {
+            background-color: #ffffcc;
+            border-left: 4px solid #ffcc00;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        .date-generation {
+            font-style: italic;
+            text-align: right;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ logo_af_path }}" alt="Logo Alliance Française" class="logo">
+        <img src="{{ logo_delf_path }}" alt="Logo DELF/DALF" class="logo">
+    </div>
+
+    <h1 class="document-title">CONVOCATION {{ exam_type }} {{ niveau }}</h1>
+
+    <div class="main-content">
+        <h2 class="section-title">INFORMATIONS CANDIDAT</h2>
+        <table class="info-table">
+            <tr>
+                <th>Nom</th>
+                <td>{{ nom }}</td>
+                <th>Prénom</th>
+                <td>{{ prenom }}</td>
+            </tr>
+            <tr>
+                <th>Date de naissance</th>
+                <td>{{ date_naissance }}</td>
+                <th>Numéro de candidat</th>
+                <td>{{ numero_candidat }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ email }}</td>
+                <th>Téléphone</th>
+                <td>{{ telephone }}</td>
+            </tr>
+        </table>
+
+        <h2 class="section-title">INFORMATIONS ÉPREUVE COLLECTIVE</h2>
+        <table class="info-table">
+            <tr>
+                <th>Date</th>
+                <td>{{ date_ep_coll }}</td>
+                <th>Heure de début</th>
+                <td>{{ debut_ep_coll }}</td>
+            </tr>
+            <tr>
+                <th>Salle</th>
+                <td colspan="3">{{ salle_collective }}</td>
+            </tr>
+            <tr>
+                <th>Matériel autorisé</th>
+                <td colspan="3">{{ materiel_autorise }}</td>
+            </tr>
+        </table>
+
+        <h2 class="section-title">INFORMATIONS ÉPREUVE INDIVIDUELLE</h2>
+        <table class="info-table">
+            <tr>
+                <th>Date</th>
+                <td>{{ date_ep_ind }}</td>
+                <th>Heure de préparation</th>
+                <td>{{ heure_preparation }}</td>
+            </tr>
+            <tr>
+                <th>Salle</th>
+                <td colspan="3">{{ salle_individuelle }}</td>
+            </tr>
+        </table>
+
+        <div class="important-note">
+            <strong>IMPORTANT:</strong> 
+            <ul>
+                <li>Présentez-vous 30 minutes avant le début des épreuves.</li>
+                <li>Munissez-vous d'une pièce d'identité avec photo.</li>
+                <li>Les téléphones portables doivent être éteints et rangés.</li>
+                <li>En cas d'empêchement, veuillez nous contacter au plus tôt au {{ institution_phone }}.</li>
+                {% if access_code %}
+                <li>Code d'accès au bâtiment: {{ access_code }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>{{ institution_name }}<br>
+        {{ institution_address }}, {{ institution_postal }} {{ institution_city }}<br>
+        Tél: {{ institution_phone }}</p>
+        
+        <p>Contact en cas d'urgence: {{ contact_urgence }}</p>
+        
+        <p>Référence: {{ reference }}</p>
+    </div>
+
+    <div class="date-generation">
+        Document généré le {{ date_generation }}
+    </div>
+</body>
+</html>

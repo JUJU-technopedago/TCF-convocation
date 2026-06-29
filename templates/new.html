@@ -1,0 +1,61 @@
+<table style="height: 44px;" width="594">
+<tbody>
+<tr style="height: 60px;">
+<td style="width: 289px; height: 60px;"><img class="logo-left" src="{{ logo_af_path }}" alt="Alliance Fran&ccedil;aise" /></td>
+<td style="width: 289px; height: 60px;"><img class="logo-right" style="text-align: right; float: right;" src="{{ logo_delf_path }}" alt="DELF" width="140" height="175" /></td>
+</tr>
+<tr style="height: 2.53125px;">
+<td style="width: 289px; text-align: center; height: 2.53125px;" colspan="2">&nbsp;</td>
+</tr>
+<tr style="height: 48px;">
+<td style="width: 289px; height: 48px; border-color: #000000; text-align: center;" colspan="2"><span style="font-size: 34.6667px; font-weight: bold; text-align: center; text-transform: uppercase;">CONVOCATION &Agrave; UN EXAMEN</span></td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<div class="header">
+<table class="logo-table">
+<tbody>
+<tr>
+<td class="logo-left-cell">&nbsp;</td>
+<td class="logo-right-cell">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="candidate-name">{{ nom|upper }} {{ prenom|title }}{% if tiers_temps %} <span style="color: #000000; font-size: 10pt;">(Candidat b&eacute;n&eacute;ficiaire d'un am&eacute;nagement sp&eacute;cifique)</span>{% endif %}</div>
+<div class="candidate-info"><strong>N&eacute;.e le :</strong> {{ date_naissance }}</div>
+<div class="candidate-info"><strong>N&deg; de candidat :</strong> {{ numero_candidat }}</div>
+<div class="instruction-text">Vous &ecirc;tes invit&eacute;.e &agrave; vous pr&eacute;senter aux &eacute;preuves suivantes, aux dates et heures indiqu&eacute;es ci-dessous, muni.e de la pr&eacute;sente convocation et d'une pi&egrave;ce d'identit&eacute; en cours de validit&eacute;.</div>
+<div class="address-text">L'examen se d&eacute;roulera &agrave; l'adresse suivante :</div>
+<table class="address-table">
+<tbody>
+<tr style="height: 100px;">
+<td class="qrcode-cell">{% if qrcode_path %} <img class="qrcode-image" src="{{ qrcode_path }}" alt="QR Code" /> {% endif %}</td>
+<td class="address-cell">
+<div class="address-box">{{ institution_name or "Alliance Fran&ccedil;aise de Bruxelles-Europe" }}<br /> {{ institution_address or "Avenue des Arts 46" }}<br /> {{ institution_postal or "1000" }} {{ institution_city or "Bruxelles" }}</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="exam-title-container">
+<div class="exam-title-box">Examen {{ exam_type or "DELF" }}, Niveau {{ niveau or "B1" }} du CECRL</div>
+</div>
+<div class="exam-section">
+<div class="exam-section-title">&Eacute;preuves collectives :</div>
+<div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_ep_coll or date_examen }}</span></div>
+<div class="exam-info"><strong>D&eacute;but de l'&eacute;preuve</strong> : {{ debut_ep_coll or heure_debut }}</div>
+<div class="exam-info"><strong>Fin de l'&eacute;preuve</strong> : {{ fin_ep_coll_affichage or fin_ep_coll or "Selon dur&eacute;e du niveau" }}</div>
+<div class="exam-info"><strong>Salle</strong> : {{ salle_collective or salle }}</div>
+</div>
+<div class="exam-section">
+<div class="exam-section-title">&Eacute;preuve individuelle :</div>
+<div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_ep_ind or date_examen }}</span></div>
+<div class="exam-info"><strong>Heure de pr&eacute;paration</strong> : {{ heure_preparation or heure_debut }}</div>
+<div class="exam-info"><strong>Salle</strong> : {{ salle_individuelle }}</div>
+</div>
+<p>{% if tiers_temps %}</p>
+<div style="margin: 20px 0; text-align: justify; line-height: 1.4; font-size: 11pt; color: #000000;"><strong>Note importante:</strong> En tant que b&eacute;n&eacute;ficiaire d'un am&eacute;nagement sp&eacute;cifique, un tiers-temps vous est allou&eacute; lors des &eacute;preuves collectives. L'heure de fin d'&eacute;preuve indiqu&eacute;e ci-dessus tient compte de cet am&eacute;nagement.</div>
+<p>{% endif %}</p>
+<div class="important-notice">Afin d'assurer la bonne tenue des &eacute;preuves collectives et individuelles, vous &ecirc;tes pri&eacute;.e de vous pr&eacute;senter sur le lieu de passation <strong>30 minutes avant</strong> les horaires indiqu&eacute;s sur cette convocation.</div>
+<div class="access-code">Votre code d'acc&egrave;s aux locaux est : {{ access_code or "" }}</div>

@@ -23,9 +23,28 @@ output_*/
 output_test*/
 test_output/
 *.pdf
-*.html
 *.log
-*.txt
+
+# Generated text logs and reports (NOT requirements.txt or docs)
+output_gen.txt
+output_generation.txt
+pdf_fix*.txt
+test_full.txt
+test_output.txt
+test_result.txt
+test_emails.txt
+registry_report.txt
+auto_decrepit_fix.log
+fix_decrepit.log
+convocation_generator.log
+
+# Generated HTML test outputs (NOT source templates)
+test_output_TCF_*.html
+test_output_*.html
+test_nouveau_template_tcf.html
+test_template.html
+test_template_output.html
+email_preview.html
 
 # Candidate/source data files
 *.xlsx

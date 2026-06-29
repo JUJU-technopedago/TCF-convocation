@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Convocation TCF TP COMPLET</title>
+    <style>
+        @page { size: A4; margin: 1cm 2cm 2cm 2cm; }
+        * { font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif !important; }
+        body { font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif !important; line-height: 1.4; color: #000; margin: 0; padding: 0; font-size: 11pt; }
+        .header { width: 100%; margin-top: 0; margin-bottom: 20px; padding: 0; }
+        .logo-table { width: 100%; border-collapse: collapse; table-layout: fixed; padding: 0; }
+        .logo-table td { border: none; padding: 0; vertical-align: top; }
+        .logo-left-cell { width: 300pt; text-align: left; padding-left: 0; }
+        .logo-right-cell { width: 300pt; text-align: right; padding-right: 0; }
+        .logo-left, .logo-right { max-height: 50pt; width: auto; }
+        .candidate-name { font-size: 12pt; font-weight: bold; margin: 15px 0 5px 0; }
+        .candidate-info { margin: 3px 0; font-size: 11pt; }
+        .instruction-text { margin: 15px 0; text-align: justify; line-height: 1.4; font-size: 11pt; }
+        .exam-section { margin: 10px 0; }
+        .exam-section-title { font-weight: bold; margin-bottom: 5px; font-size: 11pt; line-height: 1.2; }
+        .exam-info { margin: 2px 0; font-size: 11pt; line-height: 1.2; }
+        .address-text { margin: 15px 0 5px 0; font-size: 11pt; }
+        .address-box { text-align: left; margin: 0; padding: 8px; font-size: 11pt; font-weight: bold; }
+        .address-table { width: 100%; border-collapse: collapse; margin: 10px 0 20px 0; border: none; table-layout: fixed; }
+        .qrcode-cell { width: 150px; vertical-align: middle; text-align: left; padding: 0; height: 100%; }
+        .address-cell { width: 450px; vertical-align: middle; padding: 0 0 0 20px; height: 100%; }
+        .qrcode-image { max-height: 100pt; width: auto; display: inline-block; vertical-align: middle; }
+        .important-notice { margin: 20px 0; text-align: justify; line-height: 1.4; font-size: 11pt; font-style: italic; color: #000000; }
+        .access-code { margin-top: 20px; font-size: 12pt; font-weight: bold; color: #da002e; text-align: center; }
+        @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table class="logo-table">
+            <tr>
+                <td class="logo-left-cell" style="vertical-align: top; padding-bottom: 10px;">
+                    <img src="{{ logo_af_path }}" alt="Alliance Française" class="logo-left">
+                </td>
+                <td class="logo-right-cell" style="vertical-align: top;">
+                    <img src="{{ logo_tcf_path }}" alt="TCF" class="logo-right">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 15px 0; margin-top: 10px;">
+                    <table style="width: 100%; border: 3px solid #000000; border-collapse: collapse; margin: 0; padding: 0;">
+                        <tr>
+                            <td style="padding: 10px 0; text-align: center; vertical-align: middle; font-size: 35pt; font-weight: bold; text-transform: uppercase; font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif; line-height: 1; letter-spacing: -0.5px;">
+                                CONVOCATION À UN EXAMEN
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="candidate-name">{{ nom|upper }} {{ prenom|title }}{% if tiers_temps %} <span style="color: #000000; font-size: 10pt;">(Candidat bénéficiaire d'un aménagement spécifique)</span>{% endif %}</div>
+    <div class="candidate-info"><strong>Né.e le :</strong> {{ date_naissance }}</div>
+    
+    <div class="instruction-text">
+        Vous êtes invité.e à vous présenter aux épreuves suivantes, aux dates et heures indiquées ci-dessous, 
+        muni.e de la présente convocation et d'une pièce d'identité en cours de validité.
+    </div>
+
+    <div style="text-align: center; margin: 15px 0; font-weight: bold; font-size: 13pt;">TCF TOUT PUBLIC</div>
+
+    <div style="text-align: center; margin: 20px 0;">
+        <div style="display: inline-block; border: 2px solid #000; padding: 8px 15px; font-weight: bold; font-size: 12pt; text-transform: uppercase; background-color: #ffffff;">
+            Examen TCF TOUT PUBLIC
+        </div>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: none;">
+        <tr>
+            <td style="width: 250pt; vertical-align: top; padding: 2px; border: none;">
+                <!-- Épreuves collectives -->
+                {% if date_collective and heure_collective %}
+                <div class="exam-section">
+                    <div class="exam-section-title"><u>Épreuves collectives</u> :</div>
+                    <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_collective_format or date_collective }}</span></div>
+                    <div class="exam-info"><strong>Début de l'épreuve</strong> : {{ heure_collective }}</div>
+                    <div class="exam-info"><strong>Durée</strong> : {{ duree_collective }}</div>
+                    <div class="exam-info"><strong>Salle</strong> : {{ salle_collective or salle }}</div>
+                </div>
+                {% endif %}
+
+                <!-- Épreuves individuelles -->
+                {% if date_individual and heure_individual %}
+                <div class="exam-section">
+                    <div class="exam-section-title"><u>Épreuves individuelles</u> :</div>
+                    <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_individual_format or date_individual }}</span></div>
+                    <div class="exam-info"><strong>Heure de passation</strong> : {{ heure_individual }}</div>
+                    <div class="exam-info"><strong>Durée</strong> : {{ duree_individual }}</div>
+                    <div class="exam-info"><strong>Salle</strong> : {{ salle_individual or salle }}</div>
+                </div>
+                {% endif %}
+            </td>
+            <td style="width: 350pt; vertical-align: middle; padding: 2px; border: none; text-align: center;">
+                {% if logo_tcf_path %}
+                    <img src="{{ logo_tcf_path }}" alt="Logo TCF" style="max-width: 150pt; max-height: 150pt; object-fit: contain; opacity: 0.3;">
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <div class="address-text">L'examen se déroulera à l'adresse suivante :</div>
+
+    <table class="address-table">
+        <tr>
+            <td class="qrcode-cell">
+                {% if qrcode_path %}<img src="{{ qrcode_path }}" alt="QR Code" class="qrcode-image">{% endif %}
+            </td>
+            <td class="address-cell">
+                <div class="address-box">
+                    {{ institution_name or "Alliance Française de Bruxelles-Europe" }}<br>
+                    {{ institution_address or "Avenue des Arts 46" }}<br>
+                    {{ institution_postal or "1000" }} {{ institution_city or "Bruxelles" }}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    {% if tiers_temps %}
+    <div style="margin: 20px 0; text-align: justify; line-height: 1.4; font-size: 11pt; color: #000000;">
+        <strong>Note importante:</strong> En tant que bénéficiaire d'un aménagement spécifique, un tiers-temps vous est alloué lors des épreuves collectives. L'heure de fin d'épreuve indiquée ci-dessus tient compte de cet aménagement.
+    </div>
+    {% endif %}
+
+    <div class="important-notice">
+        Afin d'assurer la bonne tenue des épreuves collectives et individuelles, vous êtes prié.e de vous présenter sur le lieu de passation <strong>30 minutes avant</strong> les horaires indiqués sur cette convocation.
+    </div>
+
+    <div class="access-code">Votre code d'accès aux locaux est : {{ access_code or "" }}</div>
+</body>
+</html>

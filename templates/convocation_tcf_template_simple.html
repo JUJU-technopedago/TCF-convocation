@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convocation TCF</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm 2cm 2cm 2cm;
+        }
+        
+        * {
+            font-family: 'Arial', 'Helvetica', sans-serif !important;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif !important;
+            line-height: 1.4;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            font-size: 11pt;
+        }
+        
+        .header {
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+        
+        .logo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .logo-table td {
+            border: none;
+            padding: 5px;
+            vertical-align: top;
+        }
+        
+        .logo-left-cell {
+            width: 50%;
+            text-align: left;
+        }
+        
+        .logo-right-cell {
+            width: 50%;
+            text-align: right;
+        }
+        
+        .logo-left, .logo-right {
+            height: 60px;
+            width: auto;
+        }
+        
+        .title-box {
+            border: 1px solid #000000;
+            text-align: center;
+            padding: 5px 10px;
+            margin: 10px 0;
+            font-size: 16pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        
+        .candidate-name {
+            font-size: 12pt;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+        }
+        
+        .candidate-info {
+            margin: 3px 0;
+            font-size: 11pt;
+        }
+        
+        .instruction-text {
+            margin: 15px 0;
+            text-align: justify;
+            font-size: 11pt;
+        }
+        
+        .exam-title {
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid #000;
+            padding: 8px 15px;
+            font-weight: bold;
+            font-size: 12pt;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        
+        .exam-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .exam-table td {
+            padding: 10px 5px;
+            border: none;
+            vertical-align: top;
+        }
+        
+        .exam-section {
+            margin: 10px 0;
+        }
+        
+        .exam-section-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 11pt;
+            text-decoration: underline;
+        }
+        
+        .exam-info {
+            margin: 2px 0;
+            font-size: 11pt;
+        }
+        
+        .highlight {
+            background-color: #ffff00;
+            padding: 2px;
+        }
+        
+        .address-text {
+            margin: 30px 0 5px 0;
+            font-size: 11pt;
+        }
+        
+        .address-box {
+            text-align: left;
+            margin: 0;
+            padding: 8px;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+        
+        .address-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 20px 0;
+            border: none;
+            table-layout: fixed;
+        }
+        
+        .qrcode-cell {
+            width: 150px;
+            vertical-align: middle;
+            text-align: left;
+            padding: 0;
+            height: auto;
+        }
+        
+        .address-cell {
+            width: 450px;
+            vertical-align: middle;
+            padding: 0 0 0 20px;
+            height: auto;
+        }
+        
+        .qrcode-image {
+            height: 120px;
+            width: auto;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .important-notice {
+            margin: 20px 0;
+            text-align: justify;
+            font-size: 11pt;
+            font-style: italic;
+        }
+        
+        .access-code {
+            margin-top: 20px;
+            font-size: 12pt;
+            font-weight: bold;
+            color: #da002e;
+            text-align: center;
+        }
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table class="logo-table">
+            <tr>
+                <td class="logo-left-cell">
+                    <img src="{{ logo_af_path }}" alt="Alliance Française" class="logo-left">
+                </td>
+                <td class="logo-right-cell">
+                    <img src="{{ logo_delf_path }}" alt="TCF" class="logo-right">
+                </td>
+            </tr>
+        </table>
+        
+        <div class="title-box">
+            CONVOCATION À UN EXAMEN
+        </div>
+    </div>
+
+    <div class="candidate-name">{{ nom|upper }} {{ prenom|title }}</div>
+    
+    <div class="candidate-info"><strong>Né.e le :</strong> {{ date_naissance }}</div>
+    
+    <div class="instruction-text">
+        Vous êtes invité.e à vous présenter aux épreuves suivantes, aux dates et heures indiquées ci-dessous, 
+        muni.e de la présente convocation et d'une pièce d'identité en cours de validité.
+    </div>
+
+    <div style="text-align: center;">
+        <div class="exam-title">
+            {% if tcf_type == 'TCF CANADA' %}
+                Examen TCF CANADA
+            {% elif tcf_type == 'TCF TP COMPLET' %}
+                Examen TCF TOUT PUBLIC
+            {% elif tcf_type == 'TCF IRN' %}
+                Examen TCF INTÉGRATION, RÉSIDENCE &amp; NATIONALITÉ
+            {% elif tcf_type == 'TCF TP OBLIGATOIRE' %}
+                Examen TCF TOUT PUBLIC
+            {% else %}
+                Examen {{ tcf_type or "TCF" }}
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Section des épreuves sans logo -->
+    <div style="margin: 20px 0;">
+        <!-- Épreuves collectives -->
+        <div class="exam-section">
+            <div class="exam-section-title"><u>Épreuves collectives</u> :</div>
+            <div class="exam-info"><strong>Date</strong> : <span class="highlight">{{ date_collective_format }}</span></div>
+            <div class="exam-info"><strong>Début de l'épreuve</strong> : {{ debut_ep_coll or heure_collective }}</div>
+            <div class="exam-info"><strong>Durée</strong> : {{ duree_collective }}</div>
+            <div class="exam-info"><strong>Salle</strong> : {{ salle_collective or salle }}</div>
+        </div>
+
+        <!-- Épreuve individuelle -->
+        <div class="exam-section">
+            <div class="exam-section-title"><u>Épreuve individuelle</u> :</div>
+            <div class="exam-info"><strong>Date</strong> : <span class="highlight">{{ date_individual_format }}</span></div>
+            <div class="exam-info"><strong>Heure de passation</strong> : {{ heure_preparation or heure_individual }}</div>
+            <div class="exam-info"><strong>Durée</strong> : {{ duree_individuelle }}</div>
+            <div class="exam-info"><strong>Salle</strong> : {{ salle_individuelle }}</div>
+        </div>
+    </div>
+
+    <div class="address-text">L'examen se déroulera à l'adresse suivante :</div>
+
+    <table class="address-table">
+        <tr style="height: auto;">
+            <td class="qrcode-cell">
+                {% if qrcode_path %}
+                <img src="{{ qrcode_path }}" alt="QR Code" class="qrcode-image">
+                {% endif %}
+            </td>
+            <td class="address-cell">
+                <div class="address-box">
+                    {{ institution_name or "Alliance Française de Bruxelles-Europe" }}<br>
+                    {{ institution_address or "Avenue des Arts 46" }}<br>
+                    {{ institution_postal or "1000" }} {{ institution_city or "Bruxelles" }}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="important-notice">
+        Afin d'assurer la bonne tenue des épreuves collectives et individuelles, vous êtes prié.e de 
+        vous présenter sur le lieu de passation <strong>30 minutes avant</strong> les horaires indiqués sur cette 
+        convocation.
+    </div>
+
+    <div class="access-code">
+        Votre code d'accès aux locaux est : {{ access_code or "" }}
+    </div>
+
+</body>
+</html>

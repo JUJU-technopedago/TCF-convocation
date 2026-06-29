@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convocation TCF</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            font-size: 12pt;
+        }
+        
+        .header {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .title-box {
+            border: 2px solid #000;
+            text-align: center;
+            padding: 10px;
+            margin: 20px 0;
+            font-size: 14pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .candidate-name {
+            font-size: 12pt;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .exam-title {
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid #000;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 12pt;
+        }
+        
+        .exam-section {
+            margin: 10px 0;
+        }
+        
+        .exam-info {
+            margin: 5px 0;
+        }
+        
+        .highlight {
+            background-color: #ffff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title-box">
+            CONVOCATION À UN EXAMEN
+        </div>
+    </div>
+
+    <div class="candidate-name">{{ nom|upper }} {{ prenom|title }}</div>
+    
+    <div><strong>Né.e le :</strong> {{ date_naissance }}</div>
+    
+    <p>
+        Vous êtes invité.e à vous présenter aux épreuves suivantes, aux dates et heures indiquées ci-dessous, 
+        muni.e de la présente convocation et d'une pièce d'identité en cours de validité.
+    </p>
+
+    <div class="exam-title">
+        {% if tcf_type == 'TCF CANADA' %}
+            Examen TCF CANADA
+        {% elif tcf_type == 'TCF TP COMPLET' %}
+            Examen TCF TOUT PUBLIC
+        {% elif tcf_type == 'TCF IRN' %}
+            Examen TCF INTÉGRATION, RÉSIDENCE &amp; NATIONALITÉ
+        {% elif tcf_type == 'TCF TP OBLIGATOIRE' %}
+            Examen TCF TOUT PUBLIC
+        {% else %}
+            Examen {{ tcf_type or "TCF" }}
+        {% endif %}
+    </div>
+
+    <!-- Section des épreuves -->
+    <div>
+        <!-- Épreuves collectives -->
+        <div class="exam-section">
+            <div><strong><u>Épreuves collectives</u> :</strong></div>
+            <div class="exam-info"><strong>Date</strong> : <span class="highlight">{{ date_collective_format }}</span></div>
+            <div class="exam-info"><strong>Début de l'épreuve</strong> : {{ debut_ep_coll or heure_collective }}</div>
+            <div class="exam-info"><strong>Durée</strong> : {{ duree_collective }}</div>
+            <div class="exam-info"><strong>Salle</strong> : {{ salle_collective or salle }}</div>
+        </div>
+
+        <!-- Épreuve individuelle -->
+        <div class="exam-section">
+            <div><strong><u>Épreuve individuelle</u> :</strong></div>
+            <div class="exam-info"><strong>Date</strong> : <span class="highlight">{{ date_individual_format }}</span></div>
+            <div class="exam-info"><strong>Heure de passation</strong> : {{ heure_preparation or heure_individual }}</div>
+            <div class="exam-info"><strong>Durée</strong> : {{ duree_individuelle }}</div>
+            <div class="exam-info"><strong>Salle</strong> : {{ salle_individuelle }}</div>
+        </div>
+    </div>
+
+    <p><strong>L'examen se déroulera à l'adresse suivante :</strong></p>
+
+    <div style="border: 1px solid #000; padding: 10px; margin: 10px 0;">
+        {{ institution_name or "Alliance Française de Bruxelles-Europe" }}<br>
+        {{ institution_address or "Avenue des Arts 46" }}<br>
+        {{ institution_postal or "1000" }} {{ institution_city or "Bruxelles" }}
+    </div>
+
+    <p style="font-style: italic;">
+        Afin d'assurer la bonne tenue des épreuves collectives et individuelles, vous êtes prié.e de 
+        vous présenter sur le lieu de passation <strong>30 minutes avant</strong> les horaires indiqués sur cette 
+        convocation.
+    </p>
+
+    <div style="text-align: center; font-weight: bold; color: #da002e; margin-top: 20px;">
+        Votre code d'accès aux locaux est : {{ access_code or "" }}
+    </div>
+
+</body>
+</html>

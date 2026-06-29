@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convocation TCF</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1cm 2cm 2cm 2cm; /* Réduit la marge du haut à 1cm, garde 2cm pour les autres côtés */
+        }
+        
+        * {
+            font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif !important;
+        }
+        
+        body {
+            font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif !important;
+            line-height: 1.4;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            font-size: 11pt;
+        }
+        
+        /* Force Tahoma sur tous les éléments texte */
+        h1, h2, h3, h4, h5, h6, p, div, span, td, th, li, a, strong, em, i, b, .title-box-wrapper, .candidate-name, .candidate-info, .instruction-text, .address-text, .address-box, .exam-title-box, .exam-section-title, .exam-info, .important-notice, .access-code {
+            font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif !important;
+        }
+        
+        .header {
+            width: 100%;
+            margin-top: 0; /* Supprime toute marge en haut */
+            margin-bottom: 20px; /* Réduit l'espace entre le titre et le nom/prénom */
+            padding: 0;
+        }
+        
+        .logo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .logo-table td {
+            border: none;
+            padding: 5px;
+            vertical-align: top;
+        }
+        
+        .logo-left-cell {
+            width: 50%;
+            text-align: left;
+        }
+        
+        .logo-right-cell {
+            width: 50%;
+            text-align: right;
+        }
+        
+        .logo-left {
+            height: 60px;
+            width: auto;
+        }
+        
+        .logo-right {
+            height: 60px;
+            width: auto;
+        }
+        
+        .title-box {
+            background-color: #ffffff;
+            border: 3px solid #000000;
+            text-align: center;
+            padding: 8px;
+            margin: 20px 0;
+            font-size: 16pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            line-height: 1.1;
+            height: auto;
+            min-height: 30px;
+        }
+        
+        .title-box-wrapper {
+            display: inline-block;
+            background-color: white;  /* Fond blanc */
+            border: 3px solid #000000;  /* Bordure noire 3px pour compatibilité */
+            padding: 15px 50px;  /* Padding ajusté pour un cadre propre */
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            min-height: 20px;
+            line-height: 1.2;
+            box-sizing: border-box;  /* Pour inclure la bordure dans les dimensions */
+        }
+        
+        .candidate-name {
+            font-size: 12pt;
+            font-weight: bold;
+            margin: 15px 0 5px 0;  /* Réduit l'écart vers le haut */
+        }
+        
+        .candidate-info {
+            margin: 3px 0;
+            font-size: 11pt;
+        }
+        
+        .instruction-text {
+            margin: 15px 0;
+            text-align: justify;
+            line-height: 1.4;
+            font-size: 11pt;
+        }
+        
+    .address-text {
+        margin: 15px 0 5px 0;
+        font-size: 11pt;
+    }
+    
+    .address-box {
+        text-align: left;
+        margin: 0;
+        padding: 8px;
+        font-size: 11pt;
+        font-weight: bold;
+    }
+    
+    .address-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0 20px 0;
+        border: none;
+        table-layout: fixed;
+    }
+    
+    .qrcode-cell {
+        width: 150px;
+        vertical-align: middle;
+        text-align: left;
+        padding: 0;
+        height: auto;
+    }
+    
+    .address-cell {
+        width: 450px;
+        vertical-align: middle;
+        padding: 0 0 0 20px;
+        height: auto;
+    }
+    
+    .qrcode-image {
+        height: 120px;
+        width: auto;
+        display: inline-block;
+        vertical-align: middle;
+    }        .exam-section {
+            margin: 10px 0;
+        }
+        
+        .exam-section-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 11pt;
+            line-height: 1.2;
+        }
+        
+        .exam-info {
+            margin: 2px 0;
+            font-size: 11pt;
+            line-height: 1.2;
+        }
+        
+        .important-notice {
+            margin: 20px 0;
+            text-align: justify;
+            line-height: 1.4;
+            font-size: 11pt;
+            font-style: italic;
+            color: #000000;
+        }
+        
+        .access-code {
+            margin-top: 20px;
+            font-size: 12pt;
+            font-weight: bold;
+            color: #da002e;  /* Rouge */
+            text-align: center;
+        }
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table class="logo-table">
+            <tr>
+                <td class="logo-left-cell">
+                    <img src="{{ logo_af_path }}" alt="Alliance Française" class="logo-left">
+                </td>
+                <td class="logo-right-cell">
+                    <img src="{{ logo_tcf_path }}" alt="TCF" class="logo-right">
+                </td>
+            </tr>
+        </table>
+        
+        <table style="width: 100%; border: 2px solid #000000; border-collapse: collapse; margin: 0; padding: 0;">
+            <tr>
+                <td style="padding: 5px 4px; text-align: center; vertical-align: middle; font-size: 16pt; font-weight: bold; text-transform: uppercase; font-family: 'Tahoma', 'Arial', 'Helvetica', sans-serif; line-height: 1.0;">
+                    CONVOCATION À UN EXAMEN
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="candidate-name">{{ nom|upper }} {{ prenom|title }}{% if tiers_temps %} <span style="color: #000000; font-size: 10pt;">(Candidat bénéficiaire d'un aménagement spécifique)</span>{% endif %}</div>
+    
+    <div class="candidate-info"><strong>Né.e le :</strong> {{ date_naissance }}</div>
+    
+    <div class="instruction-text">
+        Vous êtes invité.e à vous présenter aux épreuves suivantes, aux dates et heures indiquées ci-dessous, 
+        muni.e de la présente convocation et d'une pièce d'identité en cours de validité.
+    </div>
+
+    <!-- Titre de l'examen -->
+    <div style="text-align: center; margin: 20px 0;">
+        <div style="display: inline-block; border: 2px solid #000; padding: 8px 15px; font-weight: bold; font-size: 12pt; text-transform: uppercase; background-color: #ffffff;">
+            {% if tcf_type == 'TCF CANADA' %}
+                EXAMEN TCF CANADA
+            {% elif tcf_type in ['TCF TP COMPLET', 'TCF TP OBLIGATOIRE', 'TCF TP EE', 'TCF TP EO', 'TCF TP MULTI'] %}
+                EXAMEN TCF TOUT PUBLIC
+            {% elif tcf_type == 'TCF IRN' %}
+                EXAMEN TCF INTÉGRATION, RÉSIDENCE &amp; NATIONALITÉ
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Section des épreuves -->
+    <div style="margin: 20px 0;">
+        {% if tcf_type == 'TCF TP MULTI' %}
+            <!-- CANDIDAT MULTI-ÉPREUVES : Afficher les deux épreuves dans l'ordre chronologique -->
+            
+            <!-- PREMIÈRE ÉPREUVE -->
+            <div class="exam-section">
+                {% if primary_exam_type == 'TCF TP OBLIGATOIRE' %}
+                    <div class="exam-section-title"><u>Épreuves obligatoires</u> :</div>
+                {% elif primary_exam_type == 'TCF TP EE' %}
+                    <div class="exam-section-title"><u>Épreuve écrite</u> :</div>
+                {% elif primary_exam_type == 'TCF TP EO' %}
+                    <div class="exam-section-title"><u>Épreuve orale</u> :</div>
+                {% endif %}
+                
+                <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ first_exam_date_format }}</span></div>
+                
+                {% if first_exam_is_individual %}
+                    <div class="exam-info"><strong>Heure de passation</strong> : {{ first_exam_time }}</div>
+                {% else %}
+                    <div class="exam-info"><strong>Début de l'épreuve</strong> : {{ first_exam_time }}</div>
+                {% endif %}
+                
+                <div class="exam-info"><strong>Durée</strong> : {{ first_exam_duration }}</div>
+                <div class="exam-info"><strong>Salle</strong> : {{ first_exam_salle }}</div>
+            </div>
+            
+            <!-- DEUXIÈME ÉPREUVE (si existe) -->
+            {% if secondary_exam_type %}
+            <div class="exam-section">
+                {% if secondary_exam_type == 'TCF TP OBLIGATOIRE' %}
+                    <div class="exam-section-title"><u>Épreuves obligatoires</u> :</div>
+                {% elif secondary_exam_type == 'TCF TP EE' %}
+                    <div class="exam-section-title"><u>Épreuve écrite</u> :</div>
+                {% elif secondary_exam_type == 'TCF TP EO' %}
+                    <div class="exam-section-title"><u>Épreuve orale</u> :</div>
+                {% endif %}
+                
+                <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ second_exam_date_format }}</span></div>
+                
+                {% if second_exam_is_individual %}
+                    <div class="exam-info"><strong>Heure de passation</strong> : {{ second_exam_time }}</div>
+                {% else %}
+                    <div class="exam-info"><strong>Début de l'épreuve</strong> : {{ second_exam_time }}</div>
+                {% endif %}
+                
+                <div class="exam-info"><strong>Durée</strong> : {{ second_exam_duration }}</div>
+                <div class="exam-info"><strong>Salle</strong> : {{ second_exam_salle }}</div>
+            </div>
+            {% endif %}
+            
+        {% else %}
+            <!-- CANDIDAT MONO-ÉPREUVE : Logique existante -->
+            {% if tcf_type == 'TCF TP EO' %}
+                <!-- TCF TP EO : seulement épreuve orale -->
+                <div class="exam-section">
+                    <div class="exam-section-title"><u>Épreuve orale</u> :</div>
+                    <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_individual_format or date_individual }}</span></div>
+                    <div class="exam-info"><strong>Heure de passation</strong> : {{ heure_individual }}</div>
+                    <div class="exam-info"><strong>Durée</strong> : {{ duree_individuelle }}</div>
+                    <div class="exam-info"><strong>Salle</strong> : {{ salle_individuelle or salle }}</div>
+                </div>
+            {% elif (date_collective and date_individual and (date_collective < date_individual)) or 
+                (date_collective and date_individual and date_collective == date_individual and heure_collective < heure_individual) or
+                (date_collective and not date_individual) %}
+                <!-- PREMIÈRE ÉPREUVE : Épreuves collectives/obligatoires/écrites en premier -->
+                {% if date_collective and heure_collective %}
+                <div class="exam-section">
+                    {% if tcf_type == 'TCF TP EE' %}
+                    <div class="exam-section-title"><u>Épreuve écrite</u> :</div>
+                    {% elif tcf_type == 'TCF TP OBLIGATOIRE' %}
+                    <div class="exam-section-title"><u>Épreuves obligatoires</u> :</div>
+                    {% else %}
+                    <div class="exam-section-title"><u>Épreuves collectives</u> :</div>
+                    {% endif %}
+                    <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_collective_format or date_collective }}</span></div>
+                    <div class="exam-info"><strong>Début de l'épreuve</strong> : {{ heure_collective }}</div>
+                    <div class="exam-info"><strong>Durée</strong> : {{ duree_collective }}</div>
+                    <div class="exam-info"><strong>Salle</strong> : {{ salle_collective or salle }}</div>
+                </div>
+                {% endif %}
+
+                <!-- DEUXIÈME ÉPREUVE : Épreuve individuelle/orale (sauf TCF TP OBLIGATOIRE qui n'a pas d'épreuve individuelle) -->
+                {% if has_individual_exam and tcf_type != 'TCF TP OBLIGATOIRE' %}
+                <div class="exam-section">
+                    <div class="exam-section-title"><u>Épreuves individuelles</u> :</div>
+                    <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_individual_format or date_individual }}</span></div>
+                    <div class="exam-info"><strong>Heure de passation</strong> : {{ heure_individual }}</div>
+                    <div class="exam-info"><strong>Durée</strong> : {{ duree_individuelle }}</div>
+                    <div class="exam-info"><strong>Salle</strong> : {{ salle_individuelle or salle }}</div>
+                </div>
+                {% endif %}
+            {% else %}
+                <!-- PREMIÈRE ÉPREUVE : Épreuve individuelle en premier (sauf TCF TP EO déjà traité) -->
+                {% if has_individual_exam and tcf_type != 'TCF TP EO' %}
+                <div class="exam-section">
+                    <div class="exam-section-title"><u>Épreuves individuelles</u> :</div>
+                    <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_individual_format or date_individual }}</span></div>
+                    <div class="exam-info"><strong>Heure de passation</strong> : {{ heure_individual }}</div>
+                    <div class="exam-info"><strong>Durée</strong> : {{ duree_individuelle }}</div>
+                    <div class="exam-info"><strong>Salle</strong> : {{ salle_individuelle or salle }}</div>
+                </div>
+                {% endif %}
+
+                <!-- DEUXIÈME ÉPREUVE : Épreuves collectives/obligatoires/écrites (sauf TCF TP EO déjà traité) -->
+                {% if date_collective and heure_collective and tcf_type != 'TCF TP EO' %}
+                <div class="exam-section">
+                    {% if tcf_type == 'TCF TP EE' %}
+                    <div class="exam-section-title"><u>Épreuve écrite</u> :</div>
+                    {% elif tcf_type == 'TCF TP OBLIGATOIRE' %}
+                    <div class="exam-section-title"><u>Épreuves obligatoires</u> :</div>
+                    {% else %}
+                    <div class="exam-section-title"><u>Épreuves collectives</u> :</div>
+                    {% endif %}
+                    <div class="exam-info"><strong>Date</strong> : <span style="background-color: #ffff00;">{{ date_collective_format or date_collective }}</span></div>
+                    <div class="exam-info"><strong>Début de l'épreuve</strong> : {{ heure_collective }}</div>
+                    <div class="exam-info"><strong>Durée</strong> : {{ duree_collective }}</div>
+                    <div class="exam-info"><strong>Salle</strong> : {{ salle_collective or salle }}</div>
+                </div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="address-text">L'examen se déroulera à l'adresse suivante :</div>
+
+    <table class="address-table">
+        <tr style="height: auto;">
+            <td class="qrcode-cell">
+                {% if qrcode_path %}
+                <img src="{{ qrcode_path }}" alt="QR Code" class="qrcode-image">
+                {% endif %}
+            </td>
+            <td class="address-cell">
+                <div class="address-box">
+                    {{ institution_name or "Alliance Française de Bruxelles-Europe" }}<br>
+                    {{ institution_address or "Avenue des Arts 46" }}<br>
+                    {{ institution_postal or "1000" }} {{ institution_city or "Bruxelles" }}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    {% if tiers_temps %}
+    <div style="margin: 20px 0; text-align: justify; line-height: 1.4; font-size: 11pt; color: #000000;">
+        {% if tcf_type in ['TCF TP OBLIGATOIRE', 'TCF TP EE'] %}
+        <strong>Note importante:</strong> En tant que bénéficiaire d'un aménagement spécifique, un tiers-temps vous est alloué lors des épreuves obligatoires. L'heure de fin d'épreuve indiquée ci-dessus tient compte de cet aménagement.
+        {% else %}
+        <strong>Note importante:</strong> En tant que bénéficiaire d'un aménagement spécifique, un tiers-temps vous est alloué lors des épreuves collectives. L'heure de fin d'épreuve indiquée ci-dessus tient compte de cet aménagement.
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="important-notice">
+        {% if tcf_type == 'TCF TP EO' %}
+        Afin d'assurer la bonne tenue de l'épreuve individuelle, vous êtes prié.e de
+        {% elif tcf_type == 'TCF TP OBLIGATOIRE' %}
+        Afin d'assurer la bonne tenue des épreuves obligatoires, vous êtes prié.e de
+        {% elif tcf_type == 'TCF TP EE' %}
+        Afin d'assurer la bonne tenue de l'épreuve écrite, vous êtes prié.e de
+        {% else %}
+        Afin d'assurer la bonne tenue des épreuves collectives et individuelles, vous êtes prié.e de
+        {% endif %} 
+        vous présenter sur le lieu de passation <strong>30 minutes avant</strong> les horaires indiqués sur cette 
+        convocation.
+    </div>
+
+    <div class="access-code">
+        Votre code d'accès aux locaux est : {{ access_code or "" }}
+    </div>
+
+</body>
+</html>
