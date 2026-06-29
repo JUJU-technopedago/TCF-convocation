@@ -1,0 +1,91 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Tag to release (example: v1.0.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+
+          $skip = @('tkinter', 'webbrowser', 'threading', 'json', 'time', 'os', 'uuid')
+          $packages = Get-Content requirements.txt |
+            ForEach-Object { $_.Trim() } |
+            Where-Object { $_ -and -not $_.StartsWith('#') }
+
+          $filtered = @()
+          foreach ($pkg in $packages) {
+            $name = ($pkg -split '[<>=]')[0].Trim().ToLower()
+            if ($skip -notcontains $name) {
+              $filtered += $pkg
+            }
+          }
+
+          if ($filtered.Count -gt 0) {
+            python -m pip install $filtered
+          }
+
+          python -m pip install pyinstaller
+
+      - name: Build executable
+        shell: pwsh
+        run: |
+          pyinstaller --noconfirm --clean ConvocationGenerator.spec
+          if (-not (Test-Path "dist/ConvocationGenerator.exe")) {
+            throw "Executable not found: dist/ConvocationGenerator.exe"
+          }
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ConvocationGenerator-windows
+          path: dist/ConvocationGenerator.exe
+
+      - name: Resolve release tag
+        id: meta
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "push") {
+            $tag = "${{ github.ref_name }}"
+          } else {
+            $tag = "${{ inputs.tag_name }}"
+          }
+          "tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: Release ${{ steps.meta.outputs.tag }}
+          generate_release_notes: true
+          files: |
+            dist/ConvocationGenerator.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
